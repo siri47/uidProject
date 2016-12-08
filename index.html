@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>US Representative Search</title>
+  <title>Travel Guide</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<style>
-    
-    
-img {
-    height: 84px;
-    width: 84px;
-    } 
-    </style>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnwcQqINhM7CFJDJhfOeBSdjHFqnqrsBc&libraries=places&callback=initialize" async defer></script>
+  <script src='script.js'> </script>
+
+
 <div class="navbar navbar-inverse">
     <div class="container">
         <!-- Header -->
@@ -39,11 +37,7 @@ img {
       <div class="row"> 
         <div class="col-sm-12">
                     <div class="row">
-<!--
-            <div class="checkbox col-sm-4"><label ><input type="checkbox" class="input-lg">Show Roles</label></div>
-            <label ><input type="checkbox" class="input-lg">Show Levels</label>
-            <label ><input type="checkbox" class="input-lg" />Show Offices</label>
--->
+
   <div class="col-sm-4">
   <div class="checkbox">
     <label>
@@ -68,7 +62,7 @@ img {
       </div>
   </div>
   <div class="col-sm-2">
-        <button name="search" class="input-lg btn btn-primary col-sm-12" value="Search" onclick="search()">Search</button>
+        <button name="search" id="search" class="input-lg btn btn-primary col-sm-12" value="Search" onclick="search()">Search</button>
   </div>
   <div class="col-sm-1"></div>
 </div>
@@ -83,7 +77,8 @@ img {
                 </div> 
         
   <div class="col-sm-1"></div>
-</div>
+<div id="n_row"></div>
+
 </body>
 </html>
 
