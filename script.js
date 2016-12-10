@@ -1,8 +1,6 @@
 //TODO: Make filters (use in the search API call)
-//TODO: search places API for "things to do in" + city entered
 
 //AFTER HITTING search
-//TODO: bring up map with markers
 //TODO: if someone clicks on marker, bring up info about that place 
 //TODO: be able to click on a place and add to itinerary
 //TODO: allow user to mark a place as already visited
@@ -29,6 +27,7 @@ function initAutocomplete() {
 		lat = autocomplete1.getPlace().geometry.location.lat();
 		lng = autocomplete1.getPlace().geometry.location.lng();
 	});
+
 	autocomplete2 = new google.maps.places.Autocomplete(
 		(document.getElementById('start')));
 	autocomplete2.addListener('start_address_updated', function() {
@@ -67,7 +66,6 @@ function search() {
 	});
 
 	var types = getFilters();
-	console.log(types);
 	var request = {
 		location: loc,
 		radius: '3000',
@@ -107,6 +105,9 @@ function createMarker(place) {
 		map: map,
 		position: place.geometry.location
 	});
+	// marker.addListener('click', function() {
+	// 	console.log(place.name);
+	// });
 }
 
 function getFilters() {
