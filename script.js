@@ -11,7 +11,7 @@
 
 
 var autocomplete1, autocomplete2, city, lat, lng, map, latStart, lngStart;
-var markers = []
+var zoomLev = 13;
 
 function initialize() {
 	initAutocomplete();
@@ -36,7 +36,7 @@ function initAutocomplete() {
 	});
 }
 
-//Initialize the hidden map
+//Initialize the hidden map to random values
 function initMap() {
 	var loc = new google.maps.LatLng(-33.8665, 151.1956);
 	map = new google.maps.Map(document.getElementById('map'), {
@@ -44,13 +44,6 @@ function initMap() {
 		zoom: 15
 	});
 }
-
-
-
-//TODO: This code is what happens when the user hits the search button. I'm having trouble
-// getting the map to show but we'll also have to bring up the new page/whatever that the
-// map is on
-
 
 // Press search button
 function search() {
@@ -62,7 +55,7 @@ function search() {
 	var loc = new google.maps.LatLng(lat, lng);
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: loc,
-		zoom: 13
+		zoom: zoomLev,
 	});
 
 	var types = getFilters();
@@ -70,13 +63,22 @@ function search() {
 		location: loc,
 		radius: '3000',
 		keyword: ['things to do'],
-		type: ['park', 'bar']
 	};
 
 	var service = new google.maps.places.PlacesService(map);
-	service.nearbySearch(request, callback);
+	
+	if(types.length == 0) {
+		service.nearbySearch(request, callback);
+	}
+	else {
+		for (var i = 0; i < types.length; i++) {
+		request.type = [types[i]];
+		service.nearbySearch(request, callback);
+		}
+	}
 
 	google.maps.event.addListener(map, 'zoom_changed', function() {
+		zoomLev = map.zoom;
 		service = new google.maps.places.PlacesService(map);
 		request.location = map.getCenter();
 		service.nearbySearch(request, callback);
@@ -100,13 +102,15 @@ function callback(results, status) {
 
 //add markers to the map
 function createMarker(place) {
-	var placeLoc = place.geometry.location;
+	// var myIcon = new google.maps.MarkerImage('https://cdn3.iconfinder.com/data/icons/map/500/restaurant-512.png',
+	// 	null, null, null, new google.maps.Size(21,30));
 	var marker = new google.maps.Marker({
 		map: map,
-		position: place.geometry.location
+		position: place.geometry.location,
+		//icon: myIcon
 	});
 	// marker.addListener('click', function() {
-	// 	console.log(place.name);
+	// 	console.log(place.types);
 	// });
 }
 
