@@ -13,6 +13,7 @@
 
 
 var autocomplete1, autocomplete2, city, lat, lng, map, latStart, lngStart;
+var markers = []
 
 function initialize() {
 	initAutocomplete();
@@ -65,13 +66,13 @@ function search() {
 		zoom: 13
 	});
 
-	//TODO: add type here if selected by user
-	var types = '';
+	var types = getFilters();
+	console.log(types);
 	var request = {
 		location: loc,
 		radius: '3000',
 		keyword: ['things to do'],
-		type: [types]
+		type: ['park', 'bar']
 	};
 
 	var service = new google.maps.places.PlacesService(map);
@@ -90,6 +91,7 @@ function search() {
 	});
 }
 
+//get search results
 function callback(results, status) {
 	if (status === google.maps.places.PlacesServiceStatus.OK) {
 		for (var i = 0; i < results.length; i++) {
@@ -98,6 +100,7 @@ function callback(results, status) {
 	}
 }
 
+//add markers to the map
 function createMarker(place) {
 	var placeLoc = place.geometry.location;
 	var marker = new google.maps.Marker({
@@ -105,3 +108,43 @@ function createMarker(place) {
 		position: place.geometry.location
 	});
 }
+
+function getFilters() {
+	var types = [];
+	if (document.getElementById("arts").checked) {
+		types.push('art_gallery');
+		types.push('book_store');
+		types.push('library');
+		types.push('movie_theater');
+		types.push('museum');
+	}
+	if (document.getElementById("food").checked) {
+		types.push('bakery');
+		types.push('cafe');
+		types.push('restaurant');
+		types.push('meal_takeaway');
+	}
+	if (document.getElementById("Nightlife").checked) {
+		types.push('bar');
+		types.push('casino');
+		types.push('night_club');
+	}
+	if (document.getElementById("Religion").checked) {
+		types.push('synagogue');
+		types.push('church');
+		types.push('hindu_temple');
+		types.push('mosque');
+	}
+	if (document.getElementById("Recreation").checked) {
+		types.push('amusement_park');
+		types.push('aquarium');
+		types.push('bowling_alley');
+		types.push('park');
+		types.push('shopping_mall');
+		types.push('spa');
+		types.push('stadium');
+		types.push('zoo');
+	}
+	return types;
+}
+
