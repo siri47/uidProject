@@ -11,7 +11,7 @@
 //TODO: code to find shortest distance using distance matrix API
 //TODO: code to give the user their directions
 
-var autocomplete, city, lat, lng, map;
+var autocomplete1, autocomplete2, city, lat, lng, map, latStart, lngStart;
 
 function initialize() {
 	initAutocomplete();
@@ -20,12 +20,18 @@ function initialize() {
 
 // Google autocomplete feature and get place name and id
 function initAutocomplete() {
-	autocomplete = new google.maps.places.Autocomplete(
+	autocomplete1 = new google.maps.places.Autocomplete(
 		(document.getElementById('address')), {types:['(cities)']});
-	autocomplete.addListener('place_changed', function() {
-		city = autocomplete.getPlace().name;
-		lat = autocomplete.getPlace().geometry.location.lat();
-		lng = autocomplete.getPlace().geometry.location.lng();
+	autocomplete1.addListener('place_changed', function() {
+		city = autocomplete1.getPlace().name;
+		lat = autocomplete1.getPlace().geometry.location.lat();
+		lng = autocomplete1.getPlace().geometry.location.lng();
+	});
+	autocomplete2 = new google.maps.places.Autocomplete(
+		(document.getElementById('start')));
+	autocomplete2.addListener('start_address_updated', function() {
+		latStart = autocomplete1.getPlace().geometry.location.lat();
+		lngStart = autocomplete1.getPlace().geometry.location.lng();
 	});
 }
 
