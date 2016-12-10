@@ -52,14 +52,16 @@ function search() {
 	var loc = new google.maps.LatLng(lat, lng);
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: loc,
-		zoom: 12
+		zoom: 13
 	});
 
 	//TODO: add type here if selected by user
+	var types = '';
 	var request = {
 		location: loc,
-		radius: '5000',
-		keyword: ['things to do']
+		radius: '3000',
+		keyword: ['things to do'],
+		type: [types]
 	};
 
 	var service = new google.maps.places.PlacesService(map);
