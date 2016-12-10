@@ -15,10 +15,9 @@ var autocomplete, city, lat, lng, map;
 
 function initialize() {
 	initAutocomplete();
-	// $('#search').click(function() {
-	// 	search();
-	// });
+	initMap();
 }
+
 // Google autocomplete feature and get place name and id
 function initAutocomplete() {
 	autocomplete = new google.maps.places.Autocomplete(
@@ -30,47 +29,55 @@ function initAutocomplete() {
 	});
 }
 
+//Initialize the hidden map
+function initMap() {
+	var loc = new google.maps.LatLng(-33.8665, 151.1956);
+	map = new google.maps.Map(document.getElementById('map'), {
+		center: loc,
+		zoom: 15
+	});
+}
+
+
+
 //TODO: This code is what happens when the user hits the search button. I'm having trouble
 // getting the map to show but we'll also have to bring up the new page/whatever that the
 // map is on
 
 
-// // Press search button
-// function search() {
-// 	var new_map = document.createElement('div');
-// 	new_map.id = "map";
-// 	document.getElementById('n_row').appendChild(new_map);
+// Press search button
+function search() {
+	document.getElementById('map').style.visibility = 'visible';
 
-// 	//var loc = new google.maps.LatLng(lat, lng);
-// 	var loc = {lat: lat, lng: lng};
-// 	map = new google.maps.Map(document.getElementById('map'), {
-// 		center: loc,
-// 		zoom: 15
-// 	});
+	var loc = new google.maps.LatLng(lat, lng);
+	map = new google.maps.Map(document.getElementById('map'), {
+		center: loc,
+		zoom: 12
+	});
 
-// 	//TODO: add type here if selected by user
-// 	var request = {
-// 		location: loc,
-// 		radius: 500,
-// 		keyword: ['things to do']
-// 	};
+	//TODO: add type here if selected by user
+	var request = {
+		location: loc,
+		radius: '5000',
+		keyword: ['things to do']
+	};
 
-// 	var service = new google.maps.places.PlacesService(map);
-// 	service.nearbySearch(request, callback);
-// }
+	var service = new google.maps.places.PlacesService(map);
+	service.nearbySearch(request, callback);
+}
 
-// function callback(results, status) {
-// 	if (status === google.maps.places.PlacesServiceStatus.OK) {
-// 		for (var i = 0; i < results.length; i++) {
-// 			createMarker(results[i]);
-// 		}
-// 	}
-// }
+function callback(results, status) {
+	if (status === google.maps.places.PlacesServiceStatus.OK) {
+		for (var i = 0; i < results.length; i++) {
+			createMarker(results[i]);
+		}
+	}
+}
 
-// function createMarker(place) {
-// 	var placeLoc = place.geometry.location;
-// 	var marker = new google.maps.Marker({
-// 		map: map,
-// 		position: place.geometry.location
-// 	});
-// }
+function createMarker(place) {
+	var placeLoc = place.geometry.location;
+	var marker = new google.maps.Marker({
+		map: map,
+		position: place.geometry.location
+	});
+}
