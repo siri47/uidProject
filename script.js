@@ -12,6 +12,7 @@
 //TODO: code to give the user their directions
 
 var autocomplete, city, lat, lng, map;
+var markers = [];
 
 function initialize() {
 	initAutocomplete();
@@ -48,6 +49,9 @@ function initMap() {
 // Press search button
 function search() {
 	document.getElementById('map').style.visibility = 'visible';
+	var top = document.getElementById('map').offsetTop;
+	var left = document.getElementById('map').offsetLeft;
+	window.scrollTo(left, top);
 
 	var loc = new google.maps.LatLng(lat, lng);
 	map = new google.maps.Map(document.getElementById('map'), {
@@ -66,6 +70,18 @@ function search() {
 
 	var service = new google.maps.places.PlacesService(map);
 	service.nearbySearch(request, callback);
+
+	google.maps.event.addListener(map, 'zoom_changed', function() {
+		service = new google.maps.places.PlacesService(map);
+		request.location = map.getCenter();
+		service.nearbySearch(request, callback);
+	});
+
+	google.maps.event.addListener(map, 'center_changed', function() {
+		service = new google.maps.places.PlacesService(map);
+		request.location = map.getCenter();
+		service.nearbySearch(request, callback);
+	});
 }
 
 function callback(results, status) {
@@ -82,4 +98,5 @@ function createMarker(place) {
 		map: map,
 		position: place.geometry.location
 	});
+	//markers.push(marker);
 }
