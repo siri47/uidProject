@@ -112,8 +112,23 @@ function createMarker(place) {
 	// marker.addListener('click', function() {
 	// 	console.log(place.types);
 	// });
-}
+	var infowindow = new google.maps.InfoWindow({
+    content: ""
+  });
+	google.maps.event.addListener(marker, 'click', function() {
+    infowindow.setContent('<p>Event Name: '+this.position+'</p>' +
+            '<button onclick="myFunction(\''+ this.position + '\')">Add this to itinerary</button>');
 
+
+    infowindow.open(map, this);
+  });
+
+}
+var positions = [];
+function myFunction(test) {
+  positions.push(test);
+  console.log(positions);
+}
 function getFilters() {
 	var types = [];
 	if (document.getElementById("arts").checked) {
