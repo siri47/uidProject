@@ -11,10 +11,10 @@
 
 var autocomplete1, autocomplete2, city, lat, lng, map, latStart, lngStart, graph, startAddress;
 var zoomLev = 13;
-var result = [];
-var positions = [];
-var desiredOrderPositions = [];
-var adresses = [];
+var result = []; // has ordering for current items in itinerary
+var positions = []; // stores co-ordinates of all address
+var desiredOrderPositions = []; // updates every time new result is there
+var adresses = []; // stores all address
 function DFSUtil(v,visited,mst)
 {
     visited[v] = true;
@@ -26,17 +26,17 @@ function DFSUtil(v,visited,mst)
     }
 }
 
-function dfs(mst, V){
+function dfs(mst, V){ // for finding right order in MST
     var visited = new Array(V);
     for (var i = 0; i < V; i++)
         visited[i] = false;
     for (var i = 0; i < V; i++)
         if (visited[i] == false)
-            DFSUtil(i, visited,mst);
+            DFSUtil(i, visited,mst); //utility function
     return result;
 }
 
-function minKey(key, mstSet,V)
+function minKey(key, mstSet,V) //util function for finsing MST
 {
    // Initialize min value
    var min = 35555, min_index;
@@ -48,7 +48,7 @@ function minKey(key, mstSet,V)
    return min_index;
 }
 
-function createMST(parent, n, graph)
+function createMST(parent, n, graph) // util function to create MST
 {
    var mst = new Array(n);
    for(i = 0; i <n;i++)
@@ -60,7 +60,7 @@ function createMST(parent, n, graph)
       return mst;
 }
 
-function primMST(graph,V){
+function primMST(graph,V){ //creates MST
      var parent=[]; 
      var key=[];   
      var mstSet=[];
@@ -205,15 +205,15 @@ function createMarker(place) {
 
 
     infowindow.open(map, this);
-  });
+  }); 
 
 }
 
-function myFunction(lat,lng,name) {
+function myFunction(lat,lng,name) { // function to add to a place in itinerary
   var loc = new google.maps.LatLng(lat, lng);
   positions.push(loc);
   adresses.push(name);
-  distanceMatrix();
+  distanceMatrix(); //api calling function
 }
 
 function distanceMatrix() {
@@ -245,11 +245,11 @@ function parse(response, status) {
 	}
 }
 
-function desirableOrder(graph, V)
+function desirableOrder(graph, V) // entry function to find desired order
 {
-	var mst = primMST(graph, V);
+	var mst = primMST(graph, V); //first make MST of graph
 	result = [];
-	var final_order = dfs(mst, V);
+	var final_order = dfs(mst, V); //do pre-order walk on the mst to find right order
 	return final_order;
 }
 function getFilters() {
