@@ -9,9 +9,71 @@
 //TODO: code to find shortest distance using distance matrix API
 //TODO: code to give the user their directions
 
-
 var autocomplete1, autocomplete2, city, lat, lng, map, latStart, lngStart;
 var zoomLev = 13;
+
+function prims(){
+var graph = [[0, 2, 0, 6, 0],
+             [2, 0, 3, 8, 5],
+             [0, 3, 0, 0, 7],
+             [6, 8, 0, 0, 9],
+             [0, 5, 7, 9, 0],
+            ];
+var V=5;
+
+        primMST(graph,V);
+
+}
+
+function minKey(key, mstSet,V)
+{
+   // Initialize min value
+   var min = 35555, min_index;
+ 
+   for (var v = 0; v < V; v++)
+     if (mstSet[v] == false && key[v] < min)
+         min = key[v], min_index = v;
+ 
+   return min_index;
+}
+
+function printMST(parent, n, graph)
+{
+   console.log("Edge   Weight\n");
+   for (var i = 1; i < n; i++)
+      console.log( parent[i]+" --- "+i+ "  " +graph[i][parent[i]]);
+}
+
+function primMST(graph,V){
+     var parent=[]; 
+     var key=[];   
+     var mstSet=[];      
+
+     for (var i = 0; i < V; i++){
+        key[i] = 35555, mstSet[i] = false;
+     }
+ 
+     
+     key[0] = 0;     
+     parent[0] = -1; 
+ 
+     for (var count = 0; count < V-1; count++)
+     {
+        
+        var u = minKey(key, mstSet,V);
+ 
+        mstSet[u] = true;
+
+        for (var v = 0; v < V; v++){
+          if (graph[u][v] && mstSet[v] == false && graph[u][v] <  key[v])
+             parent[v]  = u, key[v] = graph[u][v];
+        }//added
+     }
+ 
+     printMST(parent, V, graph);    
+}
+
+//prims();   --> Alan : Call this function from wherever you want and initialize the graph variable with your 2d matrix
 
 function initialize() {
 	initAutocomplete();
