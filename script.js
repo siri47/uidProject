@@ -9,20 +9,31 @@
 //TODO: code to find shortest distance using distance matrix API
 //TODO: code to give the user their directions
 
-var autocomplete1, autocomplete2, city, lat, lng, map, latStart, lngStart;
+var autocomplete1, autocomplete2, city, lat, lng, map, latStart, lngStart, graph, startAddress;
 var zoomLev = 13;
+var result = [];
+var positions = [];
+var desiredOrderPositions = [];
+var adresses = [];
+function DFSUtil(v,visited,mst)
+{
+    visited[v] = true;
+    result.push(v);
+    var len = mst[v].length;
+    for (var i = 0; i < len; ++i){
+    	if(!visited[mst[v][i]])
+    		DFSUtil(mst[v][i], visited, mst);
+    }
+}
 
-function prims(){
-var graph = [[0, 2, 0, 6, 0],
-             [2, 0, 3, 8, 5],
-             [0, 3, 0, 0, 7],
-             [6, 8, 0, 0, 9],
-             [0, 5, 7, 9, 0],
-            ];
-var V=5;
-
-        primMST(graph,V);
-
+function dfs(mst, V){
+    var visited = new Array(V);
+    for (var i = 0; i < V; i++)
+        visited[i] = false;
+    for (var i = 0; i < V; i++)
+        if (visited[i] == false)
+            DFSUtil(i, visited,mst);
+    return result;
 }
 
 function minKey(key, mstSet,V)
@@ -37,17 +48,23 @@ function minKey(key, mstSet,V)
    return min_index;
 }
 
-function printMST(parent, n, graph)
+function createMST(parent, n, graph)
 {
-   console.log("Edge   Weight\n");
-   for (var i = 1; i < n; i++)
-      console.log( parent[i]+" --- "+i+ "  " +graph[i][parent[i]]);
+   var mst = new Array(n);
+   for(i = 0; i <n;i++)
+   		mst[i] = [];
+
+   for (var i = 1; i < n; i++){
+   	mst[parent[i]].push(i);
+   }
+      return mst;
 }
 
 function primMST(graph,V){
      var parent=[]; 
      var key=[];   
-     var mstSet=[];      
+     var mstSet=[];
+     var mst = [];      
 
      for (var i = 0; i < V; i++){
         key[i] = 35555, mstSet[i] = false;
@@ -69,8 +86,9 @@ function primMST(graph,V){
              parent[v]  = u, key[v] = graph[u][v];
         }//added
      }
- 
-     printMST(parent, V, graph);    
+     mst = createMST(parent, V, graph);
+ 	return mst;
+        
 }
 
 //prims();   --> Alan : Call this function from wherever you want and initialize the graph variable with your 2d matrix
@@ -92,9 +110,10 @@ function initAutocomplete() {
 
 	autocomplete2 = new google.maps.places.Autocomplete(
 		(document.getElementById('start')));
-	autocomplete2.addListener('start_address_updated', function() {
-		latStart = autocomplete1.getPlace().geometry.location.lat();
-		lngStart = autocomplete1.getPlace().geometry.location.lng();
+	autocomplete2.addListener('place_changed', function() {
+		startAddress = autocomplete2.getPlace().name;
+		latStart = autocomplete2.getPlace().geometry.location.lat();
+		lngStart = autocomplete2.getPlace().geometry.location.lng();
 	});
 }
 
@@ -109,6 +128,9 @@ function initMap() {
 
 // Press search button
 function search() {
+	var startPosition = new google.maps.LatLng(latStart, lngStart);
+	positions.push(startPosition);
+	adresses.push(startAddress);
 	document.getElementById('map').style.visibility = 'visible';
 	var top = document.getElementById('map').offsetTop;
 	var left = document.getElementById('map').offsetLeft;
@@ -178,18 +200,57 @@ function createMarker(place) {
     content: ""
   });
 	google.maps.event.addListener(marker, 'click', function() {
-    infowindow.setContent('<p>Event Name: '+this.position+'</p>' +
-            '<button onclick="myFunction(\''+ this.position + '\')">Add this to itinerary</button>');
+    infowindow.setContent('<p>Place Name: '+place.name+'</p>' +
+            '<button onclick="myFunction(\''+ this.position.lat() + '\', \''+ this.position.lng() + '\', \''+ place.name + '\')">Add this to itinerary</button>');
 
 
     infowindow.open(map, this);
   });
 
 }
-var positions = [];
-function myFunction(test) {
-  positions.push(test);
-  console.log(positions);
+
+function myFunction(lat,lng,name) {
+  var loc = new google.maps.LatLng(lat, lng);
+  positions.push(loc);
+  adresses.push(name);
+  distanceMatrix();
+}
+
+function distanceMatrix() {
+	var service = new google.maps.DistanceMatrixService();
+	service.getDistanceMatrix(
+  	{
+    	origins: positions,
+    	destinations: positions,
+    	travelMode: 'DRIVING',
+  	}, parse);
+}
+
+function parse(response, status) {
+	if(status == 'OK'){
+		var origins = response.originAddresses;
+		graph = new Array(origins.length);
+    	for(var i = 0; i < origins.length; i++){
+    		var results = response.rows[i].elements;
+    		var distances = new Array(results.length);
+    		for(var j = 0; j < results.length; j++){
+    			
+    			var element = results[j];
+    			distances[j] = element.distance.value;
+    		}
+    		graph[i] = distances;
+    	}
+    	desiredOrderPositions = desirableOrder(graph, origins.length);
+    	//console.log(desiredOrderPositions);
+	}
+}
+
+function desirableOrder(graph, V)
+{
+	var mst = primMST(graph, V);
+	result = [];
+	var final_order = dfs(mst, V);
+	return final_order;
 }
 function getFilters() {
 	var types = [];
@@ -230,3 +291,7 @@ function getFilters() {
 	return types;
 }
 
+function makeItenrary(){
+	for(var i = 0; i < desiredOrderPositions.length; i++)
+		console.log(adresses[i]);
+}
