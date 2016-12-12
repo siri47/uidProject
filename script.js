@@ -15,6 +15,7 @@ var result = []; // has ordering for current items in itinerary
 var positions = []; // stores co-ordinates of all address
 var desiredOrderPositions = []; // updates every time new result is there
 var adresses = []; // stores all address
+var infowindow;
 function DFSUtil(v,visited,mst)
 {
     visited[v] = true;
@@ -96,6 +97,7 @@ function primMST(graph,V){ //creates MST
 function initialize() {
 	initAutocomplete();
 	initMap();
+	infowindow = new google.maps.InfoWindow({});
 }
 
 // Google autocomplete feature and get place name and id
@@ -178,14 +180,15 @@ function search() {
 //get search results
 function callback(results, status) {
 	if (status === google.maps.places.PlacesServiceStatus.OK) {
+		//var infowindow = new google.maps.InfoWindow({});
 		for (var i = 0; i < results.length; i++) {
-			createMarker(results[i]);
+			createMarker(results[i], infowindow);
 		}
 	}
 }
 
 //add markers to the map
-function createMarker(place) {
+function createMarker(place, infowindow) {
 	// var myIcon = new google.maps.MarkerImage('https://cdn3.iconfinder.com/data/icons/map/500/restaurant-512.png',
 	// 	null, null, null, new google.maps.Size(21,30));
 	var marker = new google.maps.Marker({
@@ -196,12 +199,15 @@ function createMarker(place) {
 	// marker.addListener('click', function() {
 	// 	console.log(place.types);
 	// });
-	var infowindow = new google.maps.InfoWindow({
-    content: ""
-  });
+	
 	google.maps.event.addListener(marker, 'click', function() {
-    infowindow.setContent('<p>Place Name: '+place.name+'</p>' +
-            '<button onclick="myFunction(\''+ this.position.lat() + '\', \''+ this.position.lng() + '\', \''+ place.name + '\')">Add this to itinerary</button>');
+	//infowindow.close();
+		//console.log(place.name);
+		//console.log(this.position.lat());
+		//console.log(this.position.lng());
+	//infowindow = new google.maps.InfoWindow({});
+    infowindow.setContent('<p>Place Name: '+ place.name+'</p>' + '<p>lat: '+this.position.lat()+'</p>' + '<p>lng: '+this.position.lng()+'</p>'+
+            '<button onclick="myFunction(\''+ this.position.lat() + '\', \''+ this.position.lng() + '\', \''+ place.name.substring(0,12) + '\')">Add this to itinerary</button>');
 
 
     infowindow.open(map, this);
