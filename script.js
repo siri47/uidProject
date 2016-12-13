@@ -134,8 +134,8 @@ function search() {
 	document.getElementById('map').style.visibility = 'visible';
 	document.getElementById('itin').style.visibility = 'visible';
 
-	var top = document.getElementById('map').offsetTop;
-	var left = document.getElementById('map').offsetLeft;
+	var top = document.getElementById('itin').offsetTop;
+	var left = document.getElementById('itin').offsetLeft;
 	window.scrollTo(left, top);
 
 	var loc = new google.maps.LatLng(lat, lng);
@@ -373,6 +373,10 @@ function getDirections() {
 }
 
 function loadDir(result) {
+	var top = document.getElementById('itin').offsetTop;
+	var left = document.getElementById('itin').offsetLeft;
+	window.scrollTo(left, top);
+
 	var loc = new google.maps.LatLng(-33.8665, 151.1956);
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: loc,
@@ -403,7 +407,10 @@ function saveItin() {
 }
 
 window.onload = function() {
-	nameArr = localStorage.nameArr.split(',');
+	var nameArr = localStorage.nameArr
+	if(nameArr) {
+		nameArr = nameArr.split(',');
+	}
 	for(var i = 0; i < nameArr.length; i++) {
 		var load = localStorage.getItem(nameArr[i]);
 		if(load) {
