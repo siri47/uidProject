@@ -124,7 +124,7 @@ function initMap() {
     //document.getElementById("list").size=10; 
 }
 
-// Press search button
+// Press  button
 function search() {
 	getDir = false;
 	var startPosition = new google.maps.LatLng(latStart, lngStart);
@@ -183,7 +183,7 @@ function search() {
 	});
 }
 
-//get search results
+//get  results
 function callback(results, status) {
 	if (status === google.maps.places.PlacesServiceStatus.OK) {
 		//var infowindow = new google.maps.InfoWindow({});
@@ -393,6 +393,7 @@ function getDirections() {
 	document.getElementById('dir').style.visibility = 'visible';
 	document.getElementById('wrapper2').style.visibility = 'visible';
 	document.getElementById('save').style.visibility = 'visible';
+	document.getElementById('goto').style.visibility = 'visible';
 }
 
 function loadDir(result) {
