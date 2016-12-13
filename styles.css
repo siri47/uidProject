@@ -35,6 +35,7 @@
 
 #dir {
 	height: 500px;
+	width: 35%;
 	overflow: scroll;
 	padding-left: 10px;
 }
@@ -47,11 +48,12 @@
 
 #wrapper {
 	margin-top: 50px;
+	margin-right: 20px;
 }
 
 #wrapper2 {
 	visibility: hidden;
-	margin-top: 20px;
+	margin-top: 200px;
 }
 
 /*#toTop {

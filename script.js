@@ -448,15 +448,17 @@ function loadDir(result) {
 		zoom: 15
 	});
 
-	document.getElementById('map2').style.visibility = 'visible';
-	document.getElementById('text').style.visibility = 'visible';
-	document.getElementById('goto').style.visibility = 'visible';
 	document.getElementById('save').style.visibility = 'hidden';
+	document.getElementById('wrapper2').style.visibility = 'hidden';
 	document.getElementById('add').style.visibility = 'hidden';
 	document.getElementById('map').style.visibility = 'hidden';
 	document.getElementById('itin').style.visibility = 'hidden';
 	document.getElementById('getDir').style.visibility = 'hidden';
+	document.getElementById('map2').style.visibility = 'visible';
+	document.getElementById('text').style.visibility = 'visible';
+	document.getElementById('goto').style.visibility = 'visible';
 
+	document.getElementById('dir').innerHTML = "";
 	var directionsDisp = new google.maps.DirectionsRenderer();
 	directionsDisp.setMap(map);
 	directionsDisp.setPanel(document.getElementById('dir'));
