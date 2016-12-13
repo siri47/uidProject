@@ -6,10 +6,12 @@ var result = []; // has ordering for current items in itinerary
 var positions = []; // stores co-ordinates of all address
 var desiredOrderPositions = []; // updates every time new result is there
 var adresses = []; // stores all address
-markers = []
+var markers = []
 var getDir = false;
 var addrList="";
 var infowindow, res;
+var names = [];
+
 function DFSUtil(v,visited,mst)
 {
     visited[v] = true;
@@ -365,28 +367,56 @@ function getDirections() {
 	document.getElementById('save').style.visibility = 'visible';
 }
 
-function loadDir(dir) {
-	var directionsDisp = new google.maps.DirectionsRenderer();
-	directionsDisp.setMap(map2);
-	directionsDisp.setPanel(document.getElementById('dir'));
+function loadDir(result) {
+	var loc = new google.maps.LatLng(-33.8665, 151.1956);
+	map = new google.maps.Map(document.getElementById('map'), {
+		center: loc,
+		zoom: 15
+	});
+	document.getElementById('map').style.visibility = 'visible';
 
-	directionsDisp.setDirections(res);
+	var directionsDisp = new google.maps.DirectionsRenderer();
+	directionsDisp.setMap(map);
+	directionsDisp.setPanel(document.getElementById('dir'));
+	directionsDisp.setDirections(result['dir']);
 }
 
 function saveItin() {
-	localStorage.setItem('itin', res);
+	var name = prompt("Please name your itinerary");
+	names.push(name);
+
+	var toSave = {
+		'name': name,
+		'dir': res,
+	};
+
+	localStorage.setItem(name, JSON.stringify(toSave));
 	var save = document.createElement('a');
-	save.setAttribute('href',  '#');
-	save.setAttribute('onClick', loadDir(localStorage.getItem('itin')));
-	save.innerHTML = "Itin";
+	save.innerHTML = name;
 	document.getElementById('addItin').appendChild(save);
-	localStorage.saveItem = save;
+	localStorage.setItem('nameArr', names);
 }
 
 window.onload = function() {
-	//var name = localStorage.getItem('save');
-	var s = localStorage.saveItem;
-	if (s) {
-		document.getElementById('addItin').appendChild(localStorage.saveItem);
+	nameArr = localStorage.nameArr.split(',');
+	for(var i = 0; i < nameArr.length; i++) {
+		var load = localStorage.getItem(nameArr[i]);
+		if(load) {
+			var n = document.createElement('a');
+			n.innerHTML = nameArr[i] + '<br>';
+			n.id = nameArr[i];
+			document.getElementById('addItin').appendChild(n);
+		}
 	}
+	names = nameArr;
+
+	var child = document.getElementById('addItin').childNodes;
+	for (var i = 0; i < child.length; i++) {
+		child[i].addEventListener('click', function (){
+			loadDir(JSON.parse(localStorage.getItem(this.id)));
+		});
+	}
+
 }
+
+
