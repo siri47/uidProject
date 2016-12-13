@@ -249,6 +249,7 @@ function deleteThisPlace() {
  	positions.splice(x.selectedIndex+1, 1);
  	adresses.splice(x.selectedIndex+1, 1);
     x.remove(x.selectedIndex);
+    distanceMatrix();
     console.log(adresses);
 }
 
