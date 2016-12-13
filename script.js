@@ -380,7 +380,7 @@ function getDirections() {
 		}
 	});
 
-	document.getElementById('save').style.visibility = 'visible';
+	document.getElementById('wrapper2').style.visibility = 'visible';
 }
 
 function loadDir(result) {
@@ -440,5 +440,11 @@ window.onload = function() {
 		});
 	}
 
+}
+
+function scroll() {
+	var top = document.getElementById('itin').offsetTop;
+	var left = document.getElementById('itin').offsetLeft;
+	window.scrollTo(left, top);
 }
 

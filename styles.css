@@ -11,6 +11,7 @@
   height: 500px;
   padding: 10px;
   margin: auto;
+  float: left;
 }
 
 #itin {
@@ -25,8 +26,27 @@
 	visibility: hidden;
 }
 
-#save {
-	visibility: hidden;
-	float: right;
+#save, #add {
 	margin: auto;
+}
+
+#dir {
+	height: 500px;
+	overflow: scroll;
+	padding-left: 10px;
+}
+
+#text {
+	float: left;
+	font-size: 45px;
+	margin-left: 50px;
+}
+
+#wrapper {
+	margin-top: 50px;
+}
+
+#wrapper2 {
+	visibility: hidden;
+	margin-top: 20px;
 }

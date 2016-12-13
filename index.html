@@ -126,8 +126,14 @@
         <button id="getDir" name="Get Directions" class="input-lg btn btn-primary " value="directions" onclick="getDirections()">Get Directions</button>
   </div>
 </div>
-<button id="save" name="Save" class="input-lg btn btn-primary " value="save" onclick="saveItin()">Save Itinerary</button>
-<div id="map2"></div>
-<div id="dir"></div>
+<div id='wrapper2'>
+  <div id='text'> <b>Directions</b> <br></div>
+  <button id="save" name="Save" class="input-lg btn btn-primary " value="save" onclick="saveItin()">Save Itinerary</button>
+  <button id="add" name="Add" class="input-lg btn btn-primary " value="add" onclick="scroll()">Add More Items to Your Itinerary</button>
+</div>
+<div id="wrapper">
+  <div id="map2"></div>
+  <div id="dir"></div>
+</div>
 </body>
 </html>
