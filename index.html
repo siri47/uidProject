@@ -13,9 +13,68 @@
   <script src='script.js'> </script>
 </head>
 <body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"> Travel Guide</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Itineraries <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li id='addItin'></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#" data-toggle="modal" data-target="#myModal">Help</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+    
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Help</h4>
+      </div>
+      <div class="modal-body">
+<p>Type the city you’re traveling to in the “Where” search box. Type your origin into the “Starting Point” box. The application will use this origin later to give you directions. 
+</p>
+<p>
+If no filters are selected, all ‘things to do’ in the given city will appear.
+If you’d like only certain types of locations, select the proper filter. 
+          </p>
+<p>
+On the map, select location markers to add them to your itinerary.
+          Once you have all desired locations in your itinerary, click “Make Itinerary”. </p>
+<p>
+After you’ve made your itinerary, click “Get Directions” to be given a map and driving directions. You can save this itinerary to view it later.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+<!--
 <div class="navbar navbar-inverse">
     <div class="container">
-        <!-- Header -->
+        
         <div class="navbar-header">
             <a class="navbar-brand" href="#">
                 Travel Guide
@@ -29,6 +88,7 @@
         </div>
     </div>
 </div>
+-->
     
 <div class="row">
 <div class="col-sm-12">
