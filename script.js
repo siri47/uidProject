@@ -138,8 +138,8 @@ function search() {
 	document.getElementById('map').style.visibility = 'visible';
 	document.getElementById('itin').style.visibility = 'visible';
 
-	var top = document.getElementById('itin').offsetTop;
-	var left = document.getElementById('itin').offsetLeft;
+	var top = document.getElementById('lala').offsetTop;
+	var left = document.getElementById('lala').offsetLeft;
 	window.scrollTo(left, top);
 
 	var loc = new google.maps.LatLng(lat, lng);
@@ -338,17 +338,15 @@ function getFilters() {
 
 function makeItinerary(){
     var placesList="";
-	for(var i = 0; i < desiredOrderPositions.length; i++){
+    for(var i = 0; i < desiredOrderPositions.length; i++){
 		placesList+="<br/>"+adresses[desiredOrderPositions[i]];
-        console.log("hi");
     }
     if(!placesList){
-        console.log("if");
-document.getElementById("optList").innerHTML= "Add places you want to visit to your itinerary!";        
+		alert("Add places you want to visit to your itinerary!");        
+    }else{
+    	document.getElementById("optList").innerHTML=placesList;
+    	document.getElementById("getDir").style.visibility = 'visible';
     }
-    console.log(placesList);
-    document.getElementById("optList").innerHTML=placesList;
-    document.getElementById("getDir").style.visibility = 'visible';
 }
 
 
