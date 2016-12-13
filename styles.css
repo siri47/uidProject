@@ -16,6 +16,9 @@
 
 #itin {
 	visibility: hidden;
+	height: 500px;
+	overflow: scroll;
+    border-style: solid;
 }
 
 #itinerary {
