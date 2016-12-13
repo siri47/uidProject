@@ -24,3 +24,9 @@
 #getDir {
 	visibility: hidden;
 }
+
+#save {
+	visibility: hidden;
+	float: right;
+	margin: auto;
+}
