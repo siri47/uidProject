@@ -123,6 +123,7 @@ function initMap() {
 
 // Press search button
 function search() {
+	getDir = false;
 	var startPosition = new google.maps.LatLng(latStart, lngStart);
 	positions.push(startPosition);
 	adresses.push(startAddress);
@@ -156,20 +157,20 @@ function search() {
 		}
 	}
 
-	if(getDir = false) {
-		google.maps.event.addListener(map, 'zoom_changed', function() {
-		zoomLev = map.zoom;
-		service = new google.maps.places.PlacesService(map);
-		request.location = map.getCenter();
+	google.maps.event.addListener(map, 'zoom_changed', function() {
+	zoomLev = map.zoom;
+	service = new google.maps.places.PlacesService(map);
+	request.location = map.getCenter();
+	if(!getDir)
 		service.nearbySearch(request, callback);
-		});
+	});
 
-		google.maps.event.addListener(map, 'center_changed', function() {
-		service = new google.maps.places.PlacesService(map);
-		request.location = map.getCenter();
+	google.maps.event.addListener(map, 'center_changed', function() {
+	service = new google.maps.places.PlacesService(map);
+	request.location = map.getCenter();
+	if(!getDir)
 		service.nearbySearch(request, callback);
-		});
-	}
+	});
 }
 
 //get search results
@@ -214,9 +215,14 @@ function createMarker(place, infowindow) {
 
 function myFunction(lat,lng,name) { // function to add to a place in itinerary
   var loc = new google.maps.LatLng(lat, lng);
-  positions.push(loc);
-  adresses.push(name);
-  distanceMatrix(); //api calling function
+  if (adresses.includes(name)) {
+  	window.alert("This location is already in your itinerary!");
+  }
+  else {
+  	positions.push(loc);
+  	adresses.push(name);
+  	distanceMatrix(); //api calling function
+  }
 }
 
 function distanceMatrix() {
