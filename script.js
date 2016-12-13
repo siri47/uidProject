@@ -401,6 +401,7 @@ function getDirections() {
 
 	var top = document.getElementById('map2').offsetTop;
 	var left = document.getElementById('map2').offsetLeft;
+	document.getElementById('dir').innerHTML = "";
 	window.scrollTo(left, top);
 
 	getDir = true;
