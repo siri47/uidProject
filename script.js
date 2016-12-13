@@ -237,7 +237,10 @@ function myFunction(lat,lng,name) { // function to add to a place in itinerary
   else {
   	positions.push(loc);
   	adresses.push(name);
-    addrList+="<option>"+name+"</option><br/>" ; 
+    addrList="";
+    for(var i = 1; i < adresses.length; i++){
+        addrList+="<option>"+adresses[i]+"</option><br/>" ;         
+    }
   document.getElementById("list").innerHTML=addrList;    
   	distanceMatrix(); //api calling function
   }
