@@ -1,13 +1,4 @@
-//TODO: Make filters (use in the search API call)
-
-//AFTER HITTING search
-//TODO: if someone clicks on marker, bring up info about that place 
-//TODO: be able to click on a place and add to itinerary
 //TODO: allow user to mark a place as already visited
-
-//ONCE USER CLICKS MAKE DIRECTIONS
-//TODO: code to find shortest distance using distance matrix API
-//TODO: code to give the user their directions
 
 var autocomplete1, autocomplete2, city, lat, lng, map, latStart, lngStart, graph, startAddress;
 var zoomLev = 13;
@@ -15,6 +6,8 @@ var result = []; // has ordering for current items in itinerary
 var positions = []; // stores co-ordinates of all address
 var desiredOrderPositions = []; // updates every time new result is there
 var adresses = []; // stores all address
+markers = []
+var getDir = false;
 function DFSUtil(v,visited,mst)
 {
     visited[v] = true;
@@ -150,7 +143,7 @@ function search() {
 	};
 
 	var service = new google.maps.places.PlacesService(map);
-	
+
 	if(types.length == 0) {
 		service.nearbySearch(request, callback);
 	}
@@ -161,25 +154,29 @@ function search() {
 		}
 	}
 
-	google.maps.event.addListener(map, 'zoom_changed', function() {
+	if(getDir = false) {
+		google.maps.event.addListener(map, 'zoom_changed', function() {
 		zoomLev = map.zoom;
 		service = new google.maps.places.PlacesService(map);
 		request.location = map.getCenter();
 		service.nearbySearch(request, callback);
-	});
+		});
 
-	google.maps.event.addListener(map, 'center_changed', function() {
+		google.maps.event.addListener(map, 'center_changed', function() {
 		service = new google.maps.places.PlacesService(map);
 		request.location = map.getCenter();
 		service.nearbySearch(request, callback);
-	});
+		});
+	}
 }
 
 //get search results
 function callback(results, status) {
 	if (status === google.maps.places.PlacesServiceStatus.OK) {
 		for (var i = 0; i < results.length; i++) {
-			createMarker(results[i]);
+			if (results[i].rating > '4.0') {
+				createMarker(results[i]);
+			}
 		}
 	}
 }
@@ -203,10 +200,9 @@ function createMarker(place) {
     infowindow.setContent('<p>Place Name: '+place.name+'</p>' +
             '<button onclick="myFunction(\''+ this.position.lat() + '\', \''+ this.position.lng() + '\', \''+ place.name + '\')">Add this to itinerary</button>');
 
-
     infowindow.open(map, this);
   }); 
-
+	markers.push(marker);
 }
 
 function myFunction(lat,lng,name) { // function to add to a place in itinerary
@@ -291,7 +287,40 @@ function getFilters() {
 	return types;
 }
 
-function makeItenrary(){
+function makeItinerary(){
 	for(var i = 0; i < desiredOrderPositions.length; i++)
 		console.log(adresses[i]);
+
+	getDirections();
+}
+
+function getDirections() {
+	getDir = true;
+	var directions = new google.maps.DirectionsService();
+	var directionsDisp = new google.maps.DirectionsRenderer();
+	directionsDisp.setMap(map);
+	directionsDisp.setPanel(document.getElementById('dir'));
+
+	var waypoints = [];
+	for (var i = 1; i < desiredOrderPositions.length; i++) {
+		waypoints.push({
+			location: positions[desiredOrderPositions[i]],
+		    stopover: true
+		});
+	}
+	var request = {
+		origin: positions[0],
+		destination: positions[0],
+		travelMode: 'DRIVING',
+		waypoints:  waypoints
+	};
+	directions.route(request, function(result, status) {
+		if (status == 'OK') {
+			directionsDisp.setDirections(result);
+		}
+	});
+
+	for (var i = 0; i < markers.length; i++) {
+		markers[i].setMap(null);
+	}
 }
