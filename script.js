@@ -131,6 +131,10 @@ function search() {
 	positions.push(startPosition);
 	adresses.push(startAddress);
 
+	document.getElementById('text').style.visibility = 'hidden';
+	document.getElementById('goto').style.visibility = 'hidden';
+	document.getElementById('map2').style.visibility = 'hidden';
+	document.getElementById('dir').style.visibility = 'hidden';
 	document.getElementById('map').style.visibility = 'visible';
 	document.getElementById('itin').style.visibility = 'visible';
 
@@ -384,20 +388,39 @@ function getDirections() {
 		}
 	});
 
+	document.getElementById('text').style.visibility = 'visible';
+	document.getElementById('map2').style.visibility = 'visible';
+	document.getElementById('dir').style.visibility = 'visible';
 	document.getElementById('wrapper2').style.visibility = 'visible';
+	document.getElementById('save').style.visibility = 'visible';
 }
 
 function loadDir(result) {
-	var top = document.getElementById('itin').offsetTop;
-	var left = document.getElementById('itin').offsetLeft;
+	var top = document.getElementById('map2').offsetTop;
+	var left = document.getElementById('map2').offsetLeft;
 	window.scrollTo(left, top);
 
 	var loc = new google.maps.LatLng(-33.8665, 151.1956);
-	map = new google.maps.Map(document.getElementById('map'), {
+	map = new google.maps.Map(document.getElementById('map2'), {
 		center: loc,
 		zoom: 15
 	});
-	document.getElementById('map').style.visibility = 'visible';
+
+	document.getElementById('map2').style.visibility = 'visible';
+	document.getElementById('text').style.visibility = 'visible';
+	document.getElementById('goto').style.visibility = 'visible';
+
+	// var button = document.createElement('button');
+	// button.id = 'toTop';
+	// button.innerHTML = 'Goto Top';
+
+	// document.getElementById('wrapper2').appendChild(button);
+	// document.getElementById('toTop').style.visibility = 'visible';
+	// document.getElementById('toTop').onclick = function () {
+	// 	window.scrollTo(0,0);
+	// };
+	document.getElementById('save').style.visibility = 'hidden';
+	document.getElementById('add').style.visibility = 'hidden';
 
 	var directionsDisp = new google.maps.DirectionsRenderer();
 	directionsDisp.setMap(map);

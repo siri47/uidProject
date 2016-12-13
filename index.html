@@ -102,10 +102,10 @@
 </div>
 <div class="row">
 <div class="col-sm-1"></div>
-<div class="col-sm-8">
+<div id='mapdiv' class="col-sm-8">
   <div id="map"></div>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnwcQqINhM7CFJDJhfOeBSdjHFqnqrsBc&libraries=places&callback=initialize" async defer></script>
-  </div>
+</div>
     <div id='itin' class="col-sm-2" id="itinerary">
     <br/>
         <h4>So far you have added to your itinerary :</h4>
@@ -130,6 +130,7 @@
   <div id='text'> <b>Directions</b> <br></div>
   <button id="save" name="Save" class="input-lg btn btn-primary " value="save" onclick="saveItin()">Save Itinerary</button>
   <button id="add" name="Add" class="input-lg btn btn-primary " value="add" onclick="scroll()">Add More Items to Your Itinerary</button>
+  <button id="goto" name="Goto" class="input-lg btn btn-primary " value="goto" onclick="window.scrollTo(0,0)">Goto Top</button>
 </div>
 <div id="wrapper">
   <div id="map2"></div>
