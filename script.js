@@ -88,7 +88,6 @@ function primMST(graph,V){ //creates MST
         
 }
 
-//prims();   --> Alan : Call this function from wherever you want and initialize the graph variable with your 2d matrix
 
 function initialize() {
 	initAutocomplete();
@@ -122,6 +121,7 @@ function initMap() {
 		center: loc,
 		zoom: 15
 	});
+    document.getElementById("list").size=10; 
 }
 
 // Press search button
@@ -237,9 +237,19 @@ function myFunction(lat,lng,name) { // function to add to a place in itinerary
   else {
   	positions.push(loc);
   	adresses.push(name);
-    addrList+=name+"<br/>";          document.getElementById("list").innerHTML=addrList;    
+    addrList+="<option>"+name+"</option><br/>" ; 
+  document.getElementById("list").innerHTML=addrList;    
   	distanceMatrix(); //api calling function
   }
+}
+
+function deleteThisPlace() {
+    //console.log("called");
+    var x = document.getElementById("list");
+ 	positions.splice(x.selectedIndex+1, 1);
+ 	adresses.splice(x.selectedIndex+1, 1);
+    x.remove(x.selectedIndex);
+    console.log(adresses);
 }
 
 function distanceMatrix() {
@@ -431,7 +441,3 @@ window.onload = function() {
 
 }
 
- function deletePlace(index){
- 	positions.splice(index, 1);
- 	adresses.splice(index, 1);
- }
