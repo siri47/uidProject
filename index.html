@@ -94,12 +94,21 @@
 <div class="row">
     <br/>
 </div>
+<div class="row">
+<div class="col-sm-1"></div>
+<div class="col-sm-8">
   <div id="map"></div>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnwcQqINhM7CFJDJhfOeBSdjHFqnqrsBc&libraries=places&callback=initialize" async defer></script>
-    <div class="col-sm-2">
-        <button name="Make Itinerary" id="Itinerary" class="input-lg btn btn-primary col-sm-12" value="Itinerary" onclick="makeItinerary()">Make Itinerary</button>
   </div>
-  <div id="dir"></div>
+    <div class="col-sm-2" id="itinerary">
+    <br/>
+        Your list:
+    <br/>
+    <div id="list"></div>
+        <button name="Make Itinerary" class="input-lg btn btn-primary " value="Itinerary" onclick="makeItenrary()">Make Itinerary</button>
+  </div>
+</div>
+<div id="dir"></div>
 </body>
 </html>
 
