@@ -9,7 +9,7 @@ var adresses = []; // stores all address
 markers = []
 var getDir = false;
 var addrList="";
-var infowindow;
+var infowindow, res;
 function DFSUtil(v,visited,mst)
 {
     visited[v] = true;
@@ -131,7 +131,7 @@ function search() {
 
 	document.getElementById('map').style.visibility = 'visible';
 	document.getElementById('itin').style.visibility = 'visible';
-	
+
 	var top = document.getElementById('map').offsetTop;
 	var left = document.getElementById('map').offsetLeft;
 	window.scrollTo(left, top);
@@ -199,10 +199,7 @@ function createMarker(place, infowindow) {
 		position: place.geometry.location,
 		//icon: myIcon
 	});
-	// marker.addListener('click', function() {
-	// 	console.log(place.types);
-	// });
-	
+
 	google.maps.event.addListener(marker, 'click', function() {
 		var open;
 		if(place.opening_hours.open_now == true)
@@ -354,6 +351,35 @@ function getDirections() {
 	directions.route(request, function(result, status) {
 		if (status == 'OK') {
 			directionsDisp.setDirections(result);
+			res = result;
 		}
 	});
+
+	document.getElementById('save').style.visibility = 'visible';
+}
+
+function loadDir(dir) {
+	var directionsDisp = new google.maps.DirectionsRenderer();
+	directionsDisp.setMap(map2);
+	directionsDisp.setPanel(document.getElementById('dir'));
+
+	directionsDisp.setDirections(res);
+}
+
+function saveItin() {
+	localStorage.setItem('itin', res);
+	var save = document.createElement('a');
+	save.setAttribute('href',  '#');
+	save.setAttribute('onClick', loadDir(localStorage.getItem('itin')));
+	save.innerHTML = "Itin";
+	document.getElementById('addItin').appendChild(save);
+	localStorage.saveItem = save;
+}
+
+window.onload = function() {
+	//var name = localStorage.getItem('save');
+	var s = localStorage.saveItem;
+	if (s) {
+		document.getElementById('addItin').appendChild(localStorage.saveItem);
+	}
 }
