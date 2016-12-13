@@ -5,6 +5,22 @@
   visibility: hidden;
   margin-left: 30px;
 }
+
+#map2 {
+  width: 750px;
+  height: 500px;
+  padding: 10px;
+  margin: auto;
+}
+
+#itin {
+	visibility: hidden;
+}
+
 #itinerary {
   visibility: hidden;
+}
+
+#getDir {
+	visibility: hidden;
 }

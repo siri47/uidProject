@@ -100,7 +100,7 @@
   <div id="map"></div>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnwcQqINhM7CFJDJhfOeBSdjHFqnqrsBc&libraries=places&callback=initialize" async defer></script>
   </div>
-    <div class="col-sm-2" id="itinerary">
+    <div id='itin' class="col-sm-2" id="itinerary">
     <br/>
         <h4>So far you have added to your itinerary :</h4>
     <br/>
@@ -113,8 +113,10 @@
     <div id="optList"></div>
     <br/>    <br/>
         <button name="Make Itinerary" class="input-lg btn btn-primary " value="Itinerary" onclick="makeItinerary()">Make Itinerary</button>
+        <button id="getDir" name="Get Directions" class="input-lg btn btn-primary " value="directions" onclick="getDirections()">Get Directions</button>
   </div>
 </div>
+<div id="map2"></div>
 <div id="dir"></div>
 </body>
 </html>

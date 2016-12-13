@@ -128,8 +128,10 @@ function search() {
 	var startPosition = new google.maps.LatLng(latStart, lngStart);
 	positions.push(startPosition);
 	adresses.push(startAddress);
+
 	document.getElementById('map').style.visibility = 'visible';
-	document.getElementById('itinerary').style.visibility = 'visible';
+	document.getElementById('itin').style.visibility = 'visible';
+	
 	var top = document.getElementById('map').offsetTop;
 	var left = document.getElementById('map').offsetLeft;
 	window.scrollTo(left, top);
@@ -316,14 +318,24 @@ document.getElementById("optList").innerHTML= "Add places you want to visit to y
     }
     console.log(placesList);
     document.getElementById("optList").innerHTML=placesList;
+    document.getElementById("getDir").style.visibility = 'visible';
 }
 
 
 function getDirections() {
+	var map2 = new google.maps.Map(document.getElementById("map2"), {
+		zoom: zoomLev,
+		center: {lat: lat, lng: lng}
+	});
+
+	var top = document.getElementById('map2').offsetTop;
+	var left = document.getElementById('map2').offsetLeft;
+	window.scrollTo(left, top);
+
 	getDir = true;
 	var directions = new google.maps.DirectionsService();
 	var directionsDisp = new google.maps.DirectionsRenderer();
-	directionsDisp.setMap(map);
+	directionsDisp.setMap(map2);
 	directionsDisp.setPanel(document.getElementById('dir'));
 
 	var waypoints = [];
@@ -344,8 +356,4 @@ function getDirections() {
 			directionsDisp.setDirections(result);
 		}
 	});
-
-	for (var i = 0; i < markers.length; i++) {
-		markers[i].setMap(null);
-	}
 }
