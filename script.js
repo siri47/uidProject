@@ -307,7 +307,7 @@ function getFilters() {
 function makeItinerary(){
     var placesList="";
 	for(var i = 0; i < desiredOrderPositions.length; i++){
-		placesList+="<br/>"+adresses[i];
+		placesList+="<br/>"+adresses[desiredOrderPositions[i]];
         console.log("hi");
     }
     if(!placesList){
