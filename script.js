@@ -121,7 +121,7 @@ function initMap() {
 		center: loc,
 		zoom: 15
 	});
-    document.getElementById("list").size=10; 
+    //document.getElementById("list").size=10; 
 }
 
 // Press search button
@@ -237,8 +237,12 @@ function myFunction(lat,lng,name) { // function to add to a place in itinerary
   else {
   	positions.push(loc);
   	adresses.push(name);
-    addrList+="<option>"+name+"</option><br/>" ; 
-  document.getElementById("list").innerHTML=addrList;    
+    addrList="";
+    for(var i = 1; i < adresses.length; i++){
+        addrList+="<option>"+adresses[i]+"</option><br/>" ;         
+    }
+  document.getElementById("list").innerHTML=addrList;  
+    document.getElementById("list").size=adresses.length-1;   
   	distanceMatrix(); //api calling function
   }
 }
@@ -249,8 +253,8 @@ function deleteThisPlace() {
  	positions.splice(x.selectedIndex+1, 1);
  	adresses.splice(x.selectedIndex+1, 1);
     x.remove(x.selectedIndex);
-    distanceMatrix();
     console.log(adresses);
+    distanceMatrix();
 }
 
 function distanceMatrix() {
