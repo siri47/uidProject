@@ -200,12 +200,13 @@ function createMarker(place, infowindow) {
 	// });
 	
 	google.maps.event.addListener(marker, 'click', function() {
-	//infowindow.close();
-		//console.log(place.name);
-		//console.log(this.position.lat());
-		//console.log(this.position.lng());
-	//infowindow = new google.maps.InfoWindow({});
-    infowindow.setContent('<p>Place Name: '+ place.name+'</p>' + '<p>lat: '+this.position.lat()+'</p>' + '<p>lng: '+this.position.lng()+'</p>'+
+		var open;
+		if(place.opening_hours.open_now == true)
+			open = "OPEN NOW";
+		else
+			open = "CLOSED NOW";
+	
+    infowindow.setContent('<p><b> '+ place.name+'</b></p>' + '<p>Rating: '+ place.rating +'</p>'+ '<p>'+ open+'</p>'+
             '<button onclick="myFunction(\''+ this.position.lat() + '\', \''+ this.position.lng() + '\', \''+ place.name.substring(0,12) + '\')">Add this to itinerary</button>');
 
     infowindow.open(map, this);
