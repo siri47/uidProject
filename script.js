@@ -198,11 +198,57 @@ function callback(results, status) {
 
 //add markers to the map
 function createMarker(place, infowindow) {
-	// var myIcon = new google.maps.MarkerImage('https://cdn3.iconfinder.com/data/icons/map/500/restaurant-512.png',
-	// 	null, null, null, new google.maps.Size(21,30));
+	types = place.types;
+	if(document.getElementById('arts').checked || document.getElementById('food').checked ||
+		document.getElementById('Nightlife').checked || document.getElementById('Religion').checked ||
+		document.getElementById('Recreation').checked) {
+		if (types.includes('art_gallery') || types.includes('book_store') ||
+			types.includes('library') || types.includes('movie_theater') ||
+			types.includes('museum')) {
+			var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FF3969",
+				new google.maps.Size(21,34),
+				new google.maps.Point(0,0),
+				new google.maps.Point(10,34));
+		}
+		else if (types.includes('bakery') || types.includes('cafe') ||
+			types.includes('restaurant') || types.includes('meal_takeaway')) {
+			var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|0000FF",
+				new google.maps.Size(21,34),
+				new google.maps.Point(0,0),
+				new google.maps.Point(10,34));
+		}
+		else if (types.includes('bar') || types.includes('casino') ||
+			types.includes('night_club')) {
+			var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00FF00",
+				new google.maps.Size(21,34),
+				new google.maps.Point(0,0),
+				new google.maps.Point(10,34));
+		}
+		else if (types.includes('synagogue') || types.includes('church') ||
+			types.includes('hindu_temple') || types.includes('mosque')) {
+			var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FFD700",
+				new google.maps.Size(21,34),
+				new google.maps.Point(0,0),
+				new google.maps.Point(10,34));
+		}
+		else if (types.includes('amusement_park') || types.includes('aquarium') ||
+			types.includes('bowling_alley') || types.includes('park') ||
+			types.includes('shopping_mall') || types.includes('spa') || 
+			types.includes('stadium') || types.includes('zoo')) {
+			var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ADD8E6",
+				new google.maps.Size(21,34),
+				new google.maps.Point(0,0),
+				new google.maps.Point(10,34));
+		}
+	}
+	else {
+		var pinImage = null;
+	}
+
 	var marker = new google.maps.Marker({
 		map: map,
 		position: place.geometry.location,
+		icon: pinImage
 		//icon: myIcon
 	});
 
@@ -252,12 +298,10 @@ function myFunction(lat,lng,name) { // function to add to a place in itinerary
 }
 
 function deleteThisPlace() {
-    //console.log("called");
     var x = document.getElementById("list");
  	positions.splice(x.selectedIndex+1, 1);
  	adresses.splice(x.selectedIndex+1, 1);
     x.remove(x.selectedIndex);
-    console.log(adresses);
     distanceMatrix();
 }
 
@@ -286,7 +330,6 @@ function parse(response, status) {
     		graph[i] = distances;
     	}
     	desiredOrderPositions = desirableOrder(graph, origins.length);
-    	//console.log(desiredOrderPositions);
 	}
 }
 
@@ -408,18 +451,11 @@ function loadDir(result) {
 	document.getElementById('map2').style.visibility = 'visible';
 	document.getElementById('text').style.visibility = 'visible';
 	document.getElementById('goto').style.visibility = 'visible';
-
-	// var button = document.createElement('button');
-	// button.id = 'toTop';
-	// button.innerHTML = 'Goto Top';
-
-	// document.getElementById('wrapper2').appendChild(button);
-	// document.getElementById('toTop').style.visibility = 'visible';
-	// document.getElementById('toTop').onclick = function () {
-	// 	window.scrollTo(0,0);
-	// };
 	document.getElementById('save').style.visibility = 'hidden';
 	document.getElementById('add').style.visibility = 'hidden';
+	document.getElementById('map').style.visibility = 'hidden';
+	document.getElementById('itin').style.visibility = 'hidden';
+	document.getElementById('getDir').style.visibility = 'hidden';
 
 	var directionsDisp = new google.maps.DirectionsRenderer();
 	directionsDisp.setMap(map);
