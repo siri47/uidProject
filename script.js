@@ -8,6 +8,7 @@ var desiredOrderPositions = []; // updates every time new result is there
 var adresses = []; // stores all address
 markers = []
 var getDir = false;
+var addrList="";
 var infowindow;
 function DFSUtil(v,visited,mst)
 {
@@ -223,6 +224,7 @@ function myFunction(lat,lng,name) { // function to add to a place in itinerary
   else {
   	positions.push(loc);
   	adresses.push(name);
+    addrList+=name+"<br/>";          document.getElementById("list").innerHTML=addrList;    
   	distanceMatrix(); //api calling function
   }
 }
@@ -310,10 +312,10 @@ function makeItinerary(){
     }
     if(!placesList){
         console.log("if");
-document.getElementById("list").innerHTML= "Add places you want to visit to your itinerary!";        
+document.getElementById("optList").innerHTML= "Add places you want to visit to your itinerary!";        
     }
     console.log(placesList);
-    document.getElementById("list").innerHTML=placesList;
+    document.getElementById("optList").innerHTML=placesList;
 }
 
 
