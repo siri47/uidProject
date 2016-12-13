@@ -201,7 +201,7 @@ function createMarker(place, infowindow) {
 	});
 
 	google.maps.event.addListener(marker, 'click', function() {
-		var open, rating;
+		var open, rating, name;
 		if(place.opening_hours == null)
 			open = "May be opened";
 		else if(place.opening_hours.open_now == true)
@@ -213,9 +213,14 @@ function createMarker(place, infowindow) {
 			rating = "Not enough ratings"
 		else
 			rating = place.rating;
+
+		if(place.name == null)
+			name = "";
+		else
+			name = place.name;
 	
-    infowindow.setContent('<p><b> '+ place.name+'</b></p>' + '<p>Rating: '+ rating +'</p>'+ '<p>'+ open+'</p>'+
-            '<button onclick="myFunction(\''+ this.position.lat() + '\', \''+ this.position.lng() + '\', \''+ place.name.substring(0,12) + '\')">Add this to itinerary</button>');
+    infowindow.setContent('<p><b> '+ name +'</b></p>' + '<p>Rating: '+ rating +'</p>'+ '<p>'+ open+'</p>'+
+            '<button onclick="myFunction(\''+ this.position.lat() + '\', \''+ this.position.lng() + '\', \''+ name.substring(0,12) + '\')">Add this to itinerary</button>');
 
     infowindow.open(map, this);
   }); 
@@ -390,3 +395,8 @@ window.onload = function() {
 		document.getElementById('addItin').appendChild(localStorage.saveItem);
 	}
 }
+
+ function deletePlace(index){
+ 	positions.splice(index, 1);
+ 	adresses.splice(index, 1);
+ }
