@@ -1,5 +1,3 @@
-//TODO: allow user to mark a place as already visited
-
 var autocomplete1, autocomplete2, city, lat, lng, map, latStart, lngStart, graph, startAddress;
 var zoomLev = 13;
 var result = []; // has ordering for current items in itinerary
@@ -81,7 +79,7 @@ function primMST(graph,V){ //creates MST
         for (var v = 0; v < V; v++){
           if (graph[u][v] && mstSet[v] == false && graph[u][v] <  key[v])
              parent[v]  = u, key[v] = graph[u][v];
-        }//added
+        }
      }
      mst = createMST(parent, V, graph);
  	return mst;
@@ -121,7 +119,6 @@ function initMap() {
 		center: loc,
 		zoom: 15
 	});
-    //document.getElementById("list").size=10; 
 }
 
 // Press  button
@@ -186,7 +183,6 @@ function search() {
 //get  results
 function callback(results, status) {
 	if (status === google.maps.places.PlacesServiceStatus.OK) {
-		//var infowindow = new google.maps.InfoWindow({});
 		for (var i = 0; i < results.length; i++) {
 			if (results[i].rating > '4.0') {
 				createMarker(results[i]);
@@ -249,13 +245,12 @@ function createMarker(place, infowindow) {
 		map: map,
 		position: place.geometry.location,
 		icon: pinImage
-		//icon: myIcon
 	});
 
 	google.maps.event.addListener(marker, 'click', function() {
 		var open, rating, name;
 		if(place.opening_hours == null)
-			open = "May be opened";
+			open =  "";
 		else if(place.opening_hours.open_now == true)
 			open = "OPEN NOW";
 		else
@@ -392,7 +387,7 @@ function makeItinerary(){
     }
 }
 
-
+//get both map directons and driving directions
 function getDirections() {
 	var map2 = new google.maps.Map(document.getElementById("map2"), {
 		zoom: zoomLev,
